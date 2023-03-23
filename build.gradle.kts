@@ -15,7 +15,8 @@ configurations {
 }
 
 repositories {
-    mavenCentral()
+    // mavenCentral()
+    maven("https://plugins.gradle.org/m2/")
 }
 
 dependencies {
@@ -26,6 +27,10 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    implementation("mysql:mysql-connector-java:8.0.28")
+
+
 }
 
 tasks.withType<Test> {
