@@ -12,7 +12,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Therapist {
+
     @Id
     private String DNI;
     private String name;
@@ -22,4 +23,6 @@ public class User {
     private String address;
     private String email;
     private String phone;
+    private String description;
+
 }

@@ -12,14 +12,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class PersonalCredentials {
+
     @Id
     private String DNI;
-    private String name;
-    private String surname1;
-    private String surname2;
-    private String birthday;
-    private String address;
-    private String email;
-    private String phone;
+    private String username;
+    private String password;
+    private String role;
+
 }
