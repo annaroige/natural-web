@@ -1,5 +1,6 @@
 package com.lasalle.naturalweb.controller;
 
+import com.lasalle.naturalweb.dto.ReservationOutput;
 import com.lasalle.naturalweb.entity.Therapist;
 import com.lasalle.naturalweb.entity.User;
 import com.lasalle.naturalweb.service.TherapistService;
@@ -7,9 +8,12 @@ import com.lasalle.naturalweb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.List;
 
 @RestController
 public class TherapistController {
@@ -33,6 +37,31 @@ public class TherapistController {
 
     //TODO: get schedule
 
-    //TODO: reservations
+    @GetMapping("therapist/reservation")
+    public Object getReservation (String therapistDni) {
 
+        try {
+            List<ReservationOutput> reservation = therapistService.getReservation(therapistDni);
+            return ResponseEntity.status(HttpStatus.OK).body(reservation);
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @GetMapping("therapist/reservation/historic")
+    public Object getHistoricReservation (String therapistDni) {
+
+        try {
+            List<ReservationOutput> reservation = therapistService.getHistoricReservation(therapistDni);
+            return ResponseEntity.status(HttpStatus.OK).body(reservation);
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 }
