@@ -1,9 +1,6 @@
 package com.lasalle.naturalweb.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,19 +13,17 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reservations {
+public class Reservation {
 
     @Id
     @GeneratedValue
     private Integer id;
-    private String userDni;
-    private String therapistDni;
     private LocalDateTime date;
-
-    @OneToOne(mappedBy = "userReservations")
+    @ManyToOne
+    @JoinColumn(name="DNI", nullable=false)
     private User user;
-
-    @OneToOne(mappedBy = "therapistReservations")
+    @ManyToOne
+    @JoinColumn(name="DNI", nullable=false)
     private Therapist therapist;
 
 }

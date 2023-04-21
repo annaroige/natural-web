@@ -1,13 +1,12 @@
 package com.lasalle.naturalweb.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,7 +24,6 @@ public class User {
     private String email;
     private String phone;
 
-    @OneToOne
-    @JoinColumn(name = "reservations_id")
-    private Reservations userReservations;
+    @OneToMany(mappedBy="user")
+    private List<Reservation> userReservation;
 }

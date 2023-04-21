@@ -1,13 +1,12 @@
 package com.lasalle.naturalweb.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,9 +25,14 @@ public class Therapist {
     private String email;
     private String phone;
     private String description;
+    @ManyToMany
+    @JoinTable(
+            name = "therapist_schedule",
+            joinColumns = @JoinColumn(name = "DNI"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
+    private List<Schedule> scheduleList;
 
-    @OneToOne
-    @JoinColumn(name = "reservations_id")
-    private Reservations therapistReservations;
+    @OneToMany(mappedBy="therapist")
+    private List<Reservation> therapistReservation;
 
 }
