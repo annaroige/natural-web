@@ -1,6 +1,8 @@
 package com.lasalle.naturalweb.controller;
 
 import com.lasalle.naturalweb.dto.ReservationOutput;
+import com.lasalle.naturalweb.dto.ScheduleInput;
+import com.lasalle.naturalweb.entity.Schedule;
 import com.lasalle.naturalweb.entity.Therapist;
 import com.lasalle.naturalweb.entity.User;
 import com.lasalle.naturalweb.service.TherapistService;
@@ -35,7 +37,33 @@ public class TherapistController {
 
     }
 
-    //TODO: get schedule
+    @PostMapping("therapist/schedule/create")
+    public Object createSchedule (ScheduleInput scheduleInput) {
+
+        try {
+            therapistService.createSchedule(scheduleInput);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @GetMapping("therapist/schedule")
+    public Object getSchedule (String therapistDni) {
+
+        try {
+            List<Schedule> schedules = therapistService.getSchedule(therapistDni);
+            return ResponseEntity.status(HttpStatus.OK).body(schedules);
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 
     @GetMapping("therapist/reservation")
     public Object getReservation (String therapistDni) {

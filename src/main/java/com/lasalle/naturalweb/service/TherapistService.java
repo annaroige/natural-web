@@ -1,6 +1,8 @@
 package com.lasalle.naturalweb.service;
 
 import com.lasalle.naturalweb.dto.ReservationOutput;
+import com.lasalle.naturalweb.dto.ScheduleInput;
+import com.lasalle.naturalweb.entity.Schedule;
 import com.lasalle.naturalweb.entity.Therapist;
 
 import java.util.List;
@@ -20,4 +22,8 @@ public interface TherapistService {
     List<ReservationOutput> getReservation(String therapistDni);
 
     List<ReservationOutput> getHistoricReservation(String therapistDni);
+
+    void createSchedule(ScheduleInput scheduleInput);
+
+    List<Schedule> getSchedule(String therapistDni);
 }

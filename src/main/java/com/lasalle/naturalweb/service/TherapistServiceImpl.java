@@ -1,7 +1,9 @@
 package com.lasalle.naturalweb.service;
 
 import com.lasalle.naturalweb.dto.ReservationOutput;
+import com.lasalle.naturalweb.dto.ScheduleInput;
 import com.lasalle.naturalweb.entity.Reservation;
+import com.lasalle.naturalweb.entity.Schedule;
 import com.lasalle.naturalweb.entity.Therapist;
 import com.lasalle.naturalweb.repository.ReservationRepository;
 import com.lasalle.naturalweb.repository.TherapistRepository;
@@ -70,6 +72,16 @@ public class TherapistServiceImpl implements TherapistService {
         customReservation(reservationOutputList, reservationList);
 
         return reservationOutputList;
+    }
+
+    @Override
+    public void createSchedule(ScheduleInput scheduleInput) {
+        //TODO
+    }
+
+    @Override
+    public List<Schedule> getSchedule(String therapistDni) {
+        return null;
     }
 
     private void customReservation(List<ReservationOutput> reservationOutputList, List<Reservation> reservationList) {
