@@ -2,6 +2,8 @@ package com.lasalle.naturalweb.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +24,8 @@ public class User {
     private String address;
     private String email;
     private String phone;
+
+    @OneToOne
+    @JoinColumn(name = "reservations_id")
+    private Reservations userReservations;
 }
