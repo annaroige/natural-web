@@ -1,5 +1,6 @@
 package com.lasalle.naturalweb.controller;
 
+import com.lasalle.naturalweb.dto.Disponibility;
 import com.lasalle.naturalweb.dto.ReservationOutput;
 import com.lasalle.naturalweb.dto.ScheduleInput;
 import com.lasalle.naturalweb.entity.Schedule;
@@ -57,6 +58,20 @@ public class TherapistController {
         try {
             List<Schedule> schedules = therapistService.getSchedule(therapistDni);
             return ResponseEntity.status(HttpStatus.OK).body(schedules);
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @GetMapping("therapist/disponibility")
+    public Object getDisponibility (String therapistDni) {
+
+        try {
+            List<Disponibility> disponibility = therapistService.getDisponibility(therapistDni);
+            return ResponseEntity.status(HttpStatus.OK).body(disponibility);
         } catch (HttpClientErrorException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
