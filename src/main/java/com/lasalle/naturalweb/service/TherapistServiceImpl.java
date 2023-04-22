@@ -35,6 +35,11 @@ public class TherapistServiceImpl implements TherapistService {
     }
 
     @Override
+    public List<Therapist> getTherapists() {
+        return therapistRepository.findAll();
+    }
+
+    @Override
     public Therapist getTherapistByEmail(String email) {
         return therapistRepository.getTherapistByEmail(email);
     }
@@ -116,6 +121,7 @@ public class TherapistServiceImpl implements TherapistService {
 
         return disponibilityList;
     }
+
 
     private boolean checkAvailability(LocalDateTime dateTime, String therapistDni) {
 

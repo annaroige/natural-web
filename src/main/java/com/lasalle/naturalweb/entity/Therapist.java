@@ -24,7 +24,7 @@ public class Therapist {
     private String address;
     private String email;
     private String phone;
-    private String description;
+    private String therapyDescription;
     @ManyToMany
     @JoinTable(
             name = "therapist_schedule",

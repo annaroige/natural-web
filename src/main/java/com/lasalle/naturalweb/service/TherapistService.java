@@ -29,4 +29,6 @@ public interface TherapistService {
     List<Schedule> getSchedule(String therapistDni);
 
     List<Disponibility> getDisponibility(String therapistDni);
+
+    List<Therapist> getTherapists();
 }

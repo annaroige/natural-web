@@ -24,6 +24,20 @@ public class TherapistController {
     @Autowired
     TherapistService therapistService;
 
+    @GetMapping("therapist")
+    public Object getTherapists () {
+
+        try {
+            List<Therapist> therapistList = therapistService.getTherapists();
+            return ResponseEntity.status(HttpStatus.OK).body(therapistList);
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @PostMapping("therapist/create")
     public Object create (Therapist therapist) {
 
