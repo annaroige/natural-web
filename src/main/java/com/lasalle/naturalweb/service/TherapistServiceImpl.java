@@ -133,7 +133,7 @@ public class TherapistServiceImpl implements TherapistService {
 
     }
     private void customReservation(List<ReservationOutput> reservationOutputList, List<Reservation> reservationList) {
-        DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); //TODO
+        DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         for (Reservation reservation : reservationList) {
             ReservationOutput reservationOutput = new ReservationOutput();
             reservationOutput.setUserName(reservation.getUser().getName() + " " + reservation.getUser().getSurname1());

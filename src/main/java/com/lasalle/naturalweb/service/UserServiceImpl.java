@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createReservation(ReservationInput reservationInput) {
-        DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         Reservation reservation = new Reservation();
         User user = userRepository.getUserByDNI(reservationInput.getUserDNI());
         Therapist therapist = therapistRepository.getTherapistByDNI(reservationInput.getTherapistDNI());
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void customReservation(List<ReservationOutput> reservationOutputList, List<Reservation> reservationList) {
-        DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         for (Reservation reservation : reservationList) {
             ReservationOutput reservationOutput = new ReservationOutput();
             reservationOutput.setUserName(reservation.getUser().getName() + " " + reservation.getUser().getSurname1());

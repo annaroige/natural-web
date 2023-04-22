@@ -35,8 +35,6 @@ public class UserController {
 
     }
 
-    //TODO: get schedule
-
     @PostMapping("user/reservation")
     public Object createReservation (ReservationInput reservation) {
 
