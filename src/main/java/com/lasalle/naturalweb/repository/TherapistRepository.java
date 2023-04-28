@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TherapistRepository extends JpaRepository<Therapist, String> {
+public interface TherapistRepository extends JpaRepository<Therapist, Integer> {
 
     Therapist getTherapistByEmail(String email);
-    Therapist getTherapistByDNI(String dni);
+    Therapist getTherapistByDni(String dni);
 
 }

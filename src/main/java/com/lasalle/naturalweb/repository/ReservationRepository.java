@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
-    List<Reservation> getAllByTherapist_DNIAndDateAfterOrderByDate(String dni, LocalDateTime date);
+    List<Reservation> getAllByTherapist_DniAndDateAfterOrderByDate(String dni, LocalDateTime date);
 
-    List<Reservation> getAllByUser_DNIAndDateAfterOrderByDate(String dni, LocalDateTime date);
+    List<Reservation> getAllByUser_DniAndDateAfterOrderByDate(String dni, LocalDateTime date);
 
-    List<Reservation> getAllByTherapist_DNIAndDateBeforeOrderByDate(String dni, LocalDateTime date);
+    List<Reservation> getAllByTherapist_DniAndDateBeforeOrderByDate(String dni, LocalDateTime date);
 
-    List<Reservation> getAllByUser_DNIAndDateBeforeOrderByDate(String dni, LocalDateTime date);
+    List<Reservation> getAllByUser_DniAndDateBeforeOrderByDate(String dni, LocalDateTime date);
 }

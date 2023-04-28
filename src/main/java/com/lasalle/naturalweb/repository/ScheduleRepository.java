@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
-    List<Schedule> getAllByTherapistListContains(Therapist therapist);
+    List<Schedule> getAllByTherapistDni(String therapistDni);
 
 }

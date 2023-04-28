@@ -1,5 +1,7 @@
 package com.lasalle.naturalweb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +17,9 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
     @Id
-    private String DNI;
+    @GeneratedValue
+    private Integer id;
+    private String dni;
     private String name;
     private String surname1;
     private String surname2;

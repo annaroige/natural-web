@@ -1,5 +1,7 @@
 package com.lasalle.naturalweb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +18,9 @@ import java.util.List;
 public class Therapist {
 
     @Id
-    private String DNI;
+    @GeneratedValue
+    private Integer id;
+    private String dni;
     private String name;
     private String surname1;
     private String surname2;
@@ -25,11 +29,7 @@ public class Therapist {
     private String email;
     private String phone;
     private String therapyDescription;
-    @ManyToMany
-    @JoinTable(
-            name = "therapist_schedule",
-            joinColumns = @JoinColumn(name = "DNI"),
-            inverseJoinColumns = @JoinColumn(name = "id"))
+    @OneToMany(mappedBy = "therapist")
     private List<Schedule> scheduleList;
 
     @OneToMany(mappedBy="therapist")

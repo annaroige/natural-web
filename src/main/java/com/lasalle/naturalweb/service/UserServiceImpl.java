@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String dni) {
-        return userRepository.getUserByDNI(dni);
+        return userRepository.getUserByDni(dni);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String dni) {
-        User user = userRepository.getUserByDNI(dni);
+        User user = userRepository.getUserByDni(dni);
         userRepository.delete(user);
     }
 
@@ -57,8 +57,8 @@ public class UserServiceImpl implements UserService {
     public void createReservation(ReservationInput reservationInput) {
         DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         Reservation reservation = new Reservation();
-        User user = userRepository.getUserByDNI(reservationInput.getUserDNI());
-        Therapist therapist = therapistRepository.getTherapistByDNI(reservationInput.getTherapistDNI());
+        User user = userRepository.getUserByDni(reservationInput.getUserDNI());
+        Therapist therapist = therapistRepository.getTherapistByDni(reservationInput.getTherapistDNI());
         LocalDateTime localDateTime = LocalDateTime.parse(reservationInput.getDate(), CUSTOM_FORMATTER);
         reservation.setUser(user);
         reservation.setTherapist(therapist);
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
         LocalDateTime date = LocalDateTime.now();
 
         List<ReservationOutput> reservationOutputList = new ArrayList<>();
-        List<Reservation> reservationList = reservationRepository.getAllByUser_DNIAndDateAfterOrderByDate(userDni, date);
+        List<Reservation> reservationList = reservationRepository.getAllByUser_DniAndDateAfterOrderByDate(userDni, date);
         customReservation(reservationOutputList, reservationList);
 
         return reservationOutputList;
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
         LocalDateTime date = LocalDateTime.now();
 
         List<ReservationOutput> reservationOutputList = new ArrayList<>();
-        List<Reservation> reservationList = reservationRepository.getAllByUser_DNIAndDateBeforeOrderByDate(userDni, date);
+        List<Reservation> reservationList = reservationRepository.getAllByUser_DniAndDateBeforeOrderByDate(userDni, date);
         customReservation(reservationOutputList, reservationList);
 
         return reservationOutputList;

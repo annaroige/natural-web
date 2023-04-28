@@ -8,9 +8,7 @@ import com.lasalle.naturalweb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
@@ -22,7 +20,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("user/create")
-    public Object create (User user) {
+    public Object create (@RequestBody User user) {
 
         try {
             userService.createUser(user);
@@ -36,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("user/reservation")
-    public Object createReservation (ReservationInput reservation) {
+    public Object createReservation (@RequestBody ReservationInput reservation) {
 
         try {
             userService.createReservation(reservation);
@@ -49,8 +47,8 @@ public class UserController {
 
     }
 
-    @GetMapping("user/reservation")
-    public Object getReservation (String userDni) {
+    @GetMapping("user/{userDni}/reservation")
+    public Object getReservation (@PathVariable String userDni) {
 
         try {
             List<ReservationOutput> reservation = userService.getReservation(userDni);
@@ -63,8 +61,8 @@ public class UserController {
 
     }
 
-    @GetMapping("user/reservation/historic")
-    public Object getHistoricReservation (String userDni) {
+    @GetMapping("user/{userDni}/reservation/historic")
+    public Object getHistoricReservation (@PathVariable String userDni) {
 
         try {
             List<ReservationOutput> reservation = userService.getHistoricReservation(userDni);

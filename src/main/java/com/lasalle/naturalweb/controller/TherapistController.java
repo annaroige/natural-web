@@ -11,9 +11,7 @@ import com.lasalle.naturalweb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
@@ -39,7 +37,7 @@ public class TherapistController {
     }
 
     @PostMapping("therapist/create")
-    public Object create (Therapist therapist) {
+    public Object create (@RequestBody Therapist therapist) {
 
         try {
             therapistService.createTherapist(therapist);
@@ -53,7 +51,7 @@ public class TherapistController {
     }
 
     @PostMapping("therapist/schedule/create")
-    public Object createSchedule (ScheduleInput scheduleInput) {
+    public Object createSchedule (@RequestBody ScheduleInput scheduleInput) {
 
         try {
             therapistService.createSchedule(scheduleInput);
@@ -66,8 +64,8 @@ public class TherapistController {
 
     }
 
-    @GetMapping("therapist/schedule")
-    public Object getSchedule (String therapistDni) {
+    @GetMapping("therapist/{therapistDni}/schedule")
+    public Object getSchedule (@PathVariable String therapistDni) {
 
         try {
             List<Schedule> schedules = therapistService.getSchedule(therapistDni);
@@ -80,8 +78,8 @@ public class TherapistController {
 
     }
 
-    @GetMapping("therapist/disponibility")
-    public Object getDisponibility (String therapistDni) {
+    @GetMapping("therapist/{therapistDni}/disponibility")
+    public Object getDisponibility (@PathVariable String therapistDni) {
 
         try {
             List<Disponibility> disponibility = therapistService.getDisponibility(therapistDni);
@@ -94,8 +92,8 @@ public class TherapistController {
 
     }
 
-    @GetMapping("therapist/reservation")
-    public Object getReservation (String therapistDni) {
+    @GetMapping("therapist/{therapistDni}/reservation")
+    public Object getReservation (@PathVariable String therapistDni) {
 
         try {
             List<ReservationOutput> reservation = therapistService.getReservation(therapistDni);
@@ -108,8 +106,8 @@ public class TherapistController {
 
     }
 
-    @GetMapping("therapist/reservation/historic")
-    public Object getHistoricReservation (String therapistDni) {
+    @GetMapping("therapist/{therapistDni}/reservation/historic")
+    public Object getHistoricReservation (@PathVariable String therapistDni) {
 
         try {
             List<ReservationOutput> reservation = therapistService.getHistoricReservation(therapistDni);

@@ -1,5 +1,7 @@
 package com.lasalle.naturalweb.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,10 +22,12 @@ public class Reservation {
     private Integer id;
     private LocalDateTime date;
     @ManyToOne
-    @JoinColumn(name="DNI", nullable=false)
+    @JoinColumn(name="user_DNI", nullable=false)
+    @JsonIgnore
     private User user;
     @ManyToOne
-    @JoinColumn(name="DNI", nullable=false)
+    @JoinColumn(name="therapist_DNI", nullable=false)
+    @JsonIgnore
     private Therapist therapist;
 
 }

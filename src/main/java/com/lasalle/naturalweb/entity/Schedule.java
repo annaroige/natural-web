@@ -1,5 +1,7 @@
 package com.lasalle.naturalweb.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +23,9 @@ public class Schedule {
     private Integer id;
     private Integer dayOfWeek;
     private Integer session;
-    @ManyToMany(mappedBy = "scheduleList")
-    private List<Therapist> therapistList;
+    @ManyToOne
+    @JoinColumn(name="therapist_dni", nullable=false)
+    @JsonIgnore
+    private Therapist therapist;
 
 }
