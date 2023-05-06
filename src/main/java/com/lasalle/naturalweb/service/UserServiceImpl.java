@@ -2,9 +2,11 @@ package com.lasalle.naturalweb.service;
 
 import com.lasalle.naturalweb.dto.ReservationInput;
 import com.lasalle.naturalweb.dto.ReservationOutput;
+import com.lasalle.naturalweb.entity.PersonalCredentials;
 import com.lasalle.naturalweb.entity.Reservation;
 import com.lasalle.naturalweb.entity.Therapist;
 import com.lasalle.naturalweb.entity.User;
+import com.lasalle.naturalweb.repository.PersonalCredentialsRepository;
 import com.lasalle.naturalweb.repository.ReservationRepository;
 import com.lasalle.naturalweb.repository.TherapistRepository;
 import com.lasalle.naturalweb.repository.UserRepository;
@@ -21,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PersonalCredentialsRepository credentialsRepository;
     @Autowired
     private ReservationRepository reservationRepository;
     @Autowired
@@ -39,6 +43,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) {
+
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            throw new NullPointerException("Password error");
+        }
+        PersonalCredentials personalCredentials = new PersonalCredentials();
+        personalCredentials.setDNI(user.getDni());
+        personalCredentials.setRole("user");
+        personalCredentials.setUsername(user.getEmail());
+        personalCredentials.setPassword(user.getPassword());
+
+        credentialsRepository.save(personalCredentials);
         userRepository.save(user);
     }
 

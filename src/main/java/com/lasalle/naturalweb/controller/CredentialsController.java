@@ -6,18 +6,21 @@ import com.lasalle.naturalweb.service.CredentialsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
+@CrossOrigin
 public class CredentialsController {
 
     @Autowired
     CredentialsService credentialsService;
 
     @PostMapping("login")
-    public Object login(LoginInput loginInput) {
+    public Object login(@RequestBody LoginInput loginInput) {
 
         try {
             LoginOutput loginOutput = credentialsService.login(loginInput);
