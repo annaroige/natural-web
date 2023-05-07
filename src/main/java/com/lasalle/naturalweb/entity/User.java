@@ -27,8 +27,8 @@ public class User {
     private String address;
     private String email;
     private String phone;
-    private String password;
-    private String confirmPassword;
+    private transient String password;
+    private transient String confirmPassword;
 
     @OneToMany(mappedBy="user")
     private List<Reservation> userReservation;

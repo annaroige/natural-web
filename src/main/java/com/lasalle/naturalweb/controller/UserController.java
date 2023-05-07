@@ -14,7 +14,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+// @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     @Autowired
@@ -48,7 +48,8 @@ public class UserController {
 
     }
 
-    @GetMapping("user/{userDni}/reservation")
+
+    @GetMapping("/user/{userDni}/reservation")
     public Object getReservation (@PathVariable String userDni) {
 
         try {
