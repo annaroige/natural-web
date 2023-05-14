@@ -1,6 +1,7 @@
 package com.lasalle.naturalweb.service;
 
 import com.lasalle.naturalweb.dto.Disponibility;
+import com.lasalle.naturalweb.dto.DisponibilityInput;
 import com.lasalle.naturalweb.dto.ReservationOutput;
 import com.lasalle.naturalweb.dto.ScheduleInput;
 import com.lasalle.naturalweb.entity.Reservation;
@@ -13,10 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class TherapistServiceImpl implements TherapistService {
@@ -37,6 +42,17 @@ public class TherapistServiceImpl implements TherapistService {
     @Override
     public List<Therapist> getTherapists() {
         return therapistRepository.findAll();
+    }
+
+    @Override
+    public List<Integer> getDaysOff(String therapistDni) {
+
+        List<Integer> weekDays = Stream.of(1,2,3,4,5).collect(Collectors.toList());
+        List<Schedule> schedules = getSchedule(therapistDni);
+        List<Integer> daysIn = schedules.stream().map(Schedule -> Schedule.getDayOfWeek()).collect(Collectors.toList());
+        List<Integer> daysOff = weekDays.stream().filter(w -> !daysIn.contains(w)).collect(Collectors.toList());
+
+        return daysOff;
     }
 
     @Override
@@ -98,50 +114,51 @@ public class TherapistServiceImpl implements TherapistService {
 
     @Override
     public List<Schedule> getSchedule(String therapistDni) {
-        Therapist therapist = therapistRepository.getTherapistByDni(therapistDni);
+
         List<Schedule> scheduleList = scheduleRepository.getAllByTherapistDni(therapistDni);
 
         return scheduleList;
     }
 
     @Override
-    public List<Disponibility> getDisponibility(String therapistDni) {
+    public List<Disponibility> getDisponibility(DisponibilityInput disponibilityInput) {
 
-        LocalDateTime nowRounded = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
-        LocalDateTime inAMonth = nowRounded.plusMonths(1);
         List<Disponibility> disponibilityList = new ArrayList<>();
-        List<Schedule> scheduleList = getSchedule(therapistDni);
-        LocalDateTime now = LocalDateTime.now();
-        List<Reservation> reservationList = reservationRepository.getAllByTherapist_DniAndDateAfterOrderByDate(therapistDni, now);
-        for (LocalDateTime i = nowRounded; i.isBefore(inAMonth); i.plusHours(1L)) {
-            if ((i.getDayOfWeek() != DayOfWeek.SATURDAY && i.getDayOfWeek() != DayOfWeek.SUNDAY) && (i.getHour() >= 9 && i.getHour() < 21)) {
-                Disponibility disponibility = new Disponibility();
-                disponibility.setDate(i.toLocalDate());
-                disponibility.setTime(i.toLocalTime());
-                boolean available = checkAvailability(i, scheduleList, reservationList);
-                disponibility.setDisponible(available);
-                disponibilityList.add(disponibility);
 
-            } else if(i.getHour() == 21) {
-                i.plusHours(11L);
+        List<Schedule> scheduleList = getScheduleList(disponibilityInput);
+
+        List<Reservation> reservationList = getReservationList(disponibilityInput);
+
+        List<Integer> sessions = scheduleList.stream().map(schedule -> schedule.getSession()).collect(Collectors.toList());
+
+        for (Integer session : sessions) {
+            Disponibility disponibility = new Disponibility();
+            disponibility.setTime(LocalTime.of(session, 0));
+            if (!reservationList.stream().anyMatch(rl -> rl.getDate().getHour() == session)) {
+                disponibility.setTime(LocalTime.of(session, 0));
+                disponibility.setDisponible(true);
             }
+            disponibilityList.add(disponibility);
         }
 
         return disponibilityList;
     }
 
-
-    private boolean checkAvailability(LocalDateTime dateTime, List<Schedule> scheduleList, List<Reservation> reservationList) {
-
-        boolean available = false;
-        if (scheduleList.stream().anyMatch(s -> (s.getDayOfWeek() == (dateTime.getDayOfWeek().getValue()) && s.getSession() == dateTime.getHour()))
-            && !reservationList.stream().anyMatch(r -> r.getDate().isEqual(dateTime))) {
-            available = true;
-        }
-
-        return available;
-
+    private List<Reservation> getReservationList(DisponibilityInput disponibilityInput) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalTime midnight = LocalTime.MIDNIGHT;
+        LocalDateTime todayMidnight = LocalDateTime.of(LocalDate.from(now), midnight);
+        List<Reservation> reservationList = reservationRepository.getAllByTherapist_DniAndDateBetweenOrderByDate(disponibilityInput.getTherapistDNI(), now, todayMidnight);
+        return reservationList;
     }
+
+    private List<Schedule> getScheduleList(DisponibilityInput disponibilityInput) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+        int dayOfWeek = (LocalDate.parse(disponibilityInput.getDate(), formatter)).getDayOfWeek().getValue();
+        List<Schedule> scheduleList = scheduleRepository.getAllByTherapistDniAndDayOfWeek(disponibilityInput.getTherapistDNI(), dayOfWeek);
+        return scheduleList;
+    }
+
     private void customReservation(List<ReservationOutput> reservationOutputList, List<Reservation> reservationList) {
         DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         for (Reservation reservation : reservationList) {

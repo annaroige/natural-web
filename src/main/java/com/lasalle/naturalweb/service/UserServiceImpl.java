@@ -70,11 +70,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createReservation(ReservationInput reservationInput) {
-        DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("dd/M/yyyy HH:mm:ss");
         Reservation reservation = new Reservation();
         User user = userRepository.getUserByDni(reservationInput.getUserDNI());
         Therapist therapist = therapistRepository.getTherapistByDni(reservationInput.getTherapistDNI());
-        LocalDateTime localDateTime = LocalDateTime.parse(reservationInput.getDate(), CUSTOM_FORMATTER);
+        String dateStr = reservationInput.getDay() + " " + reservationInput.getTime();
+        LocalDateTime localDateTime = LocalDateTime.parse(dateStr, CUSTOM_FORMATTER);
         reservation.setUser(user);
         reservation.setTherapist(therapist);
         reservation.setDate(localDateTime);

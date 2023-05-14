@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReservationInput {
+public class DisponibilityInput {
 
-    private String userDNI;
     private String therapistDNI;
-    private String day;
-    private String time;
+    private String date;
 
 }

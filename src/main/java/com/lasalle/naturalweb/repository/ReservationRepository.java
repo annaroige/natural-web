@@ -12,6 +12,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     List<Reservation> getAllByTherapist_DniAndDateAfterOrderByDate(String dni, LocalDateTime date);
 
+    List<Reservation> getAllByTherapist_DniAndDateBetweenOrderByDate(String dni, LocalDateTime initDate, LocalDateTime endDate);
+
     List<Reservation> getAllByUser_DniAndDateAfterOrderByDate(String dni, LocalDateTime date);
 
     List<Reservation> getAllByTherapist_DniAndDateBeforeOrderByDate(String dni, LocalDateTime date);

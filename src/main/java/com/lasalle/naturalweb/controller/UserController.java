@@ -2,7 +2,6 @@ package com.lasalle.naturalweb.controller;
 
 import com.lasalle.naturalweb.dto.ReservationInput;
 import com.lasalle.naturalweb.dto.ReservationOutput;
-import com.lasalle.naturalweb.entity.Reservation;
 import com.lasalle.naturalweb.entity.User;
 import com.lasalle.naturalweb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +13,13 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 @RestController
-// @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("api/v1/user")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @PostMapping("user/create")
+    @PostMapping("create")
     public Object create (@RequestBody User user) {
 
         try {
@@ -34,7 +33,7 @@ public class UserController {
 
     }
 
-    @PostMapping("user/reservation")
+    @PostMapping("reservation")
     public Object createReservation (@RequestBody ReservationInput reservation) {
 
         try {
@@ -49,7 +48,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/user/{userDni}/reservation")
+    @GetMapping("{userDni}/reservation")
     public Object getReservation (@PathVariable String userDni) {
 
         try {
@@ -63,7 +62,7 @@ public class UserController {
 
     }
 
-    @GetMapping("user/{userDni}/reservation/historic")
+    @GetMapping("{userDni}/reservation/historic")
     public Object getHistoricReservation (@PathVariable String userDni) {
 
         try {

@@ -1,6 +1,7 @@
 package com.lasalle.naturalweb.controller;
 
 import com.lasalle.naturalweb.dto.Disponibility;
+import com.lasalle.naturalweb.dto.DisponibilityInput;
 import com.lasalle.naturalweb.dto.ReservationOutput;
 import com.lasalle.naturalweb.dto.ScheduleInput;
 import com.lasalle.naturalweb.entity.Schedule;
@@ -17,12 +18,13 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 @RestController
+@RequestMapping("api/v1/therapist")
 public class TherapistController {
 
     @Autowired
     TherapistService therapistService;
 
-    @GetMapping("therapist")
+    @GetMapping("/")
     public Object getTherapists () {
 
         try {
@@ -36,7 +38,7 @@ public class TherapistController {
 
     }
 
-    @PostMapping("therapist/create")
+    @PostMapping("create")
     public Object create (@RequestBody Therapist therapist) {
 
         try {
@@ -50,7 +52,7 @@ public class TherapistController {
 
     }
 
-    @PostMapping("therapist/schedule/create")
+    @PostMapping("schedule/create")
     public Object createSchedule (@RequestBody ScheduleInput scheduleInput) {
 
         try {
@@ -64,7 +66,7 @@ public class TherapistController {
 
     }
 
-    @GetMapping("therapist/{therapistDni}/schedule")
+    @GetMapping("{therapistDni}/schedule")
     public Object getSchedule (@PathVariable String therapistDni) {
 
         try {
@@ -78,11 +80,25 @@ public class TherapistController {
 
     }
 
-    @GetMapping("therapist/{therapistDni}/disponibility")
-    public Object getDisponibility (@PathVariable String therapistDni) {
+    @GetMapping("{therapistDni}/daysoff")
+    public Object getDaysOff (@PathVariable String therapistDni) {
 
         try {
-            List<Disponibility> disponibility = therapistService.getDisponibility(therapistDni);
+            List<Integer> daysOff = therapistService.getDaysOff(therapistDni);
+            return ResponseEntity.status(HttpStatus.OK).body(daysOff);
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @PostMapping("disponibility")
+    public Object getDisponibility (@RequestBody DisponibilityInput disponibilityInput) {
+
+        try {
+            List<Disponibility> disponibility = therapistService.getDisponibility(disponibilityInput);
             return ResponseEntity.status(HttpStatus.OK).body(disponibility);
         } catch (HttpClientErrorException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -92,7 +108,7 @@ public class TherapistController {
 
     }
 
-    @GetMapping("therapist/{therapistDni}/reservation")
+    @GetMapping("{therapistDni}/reservation")
     public Object getReservation (@PathVariable String therapistDni) {
 
         try {
@@ -106,7 +122,7 @@ public class TherapistController {
 
     }
 
-    @GetMapping("therapist/{therapistDni}/reservation/historic")
+    @GetMapping("{therapistDni}/reservation/historic")
     public Object getHistoricReservation (@PathVariable String therapistDni) {
 
         try {

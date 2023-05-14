@@ -1,6 +1,7 @@
 package com.lasalle.naturalweb.service;
 
 import com.lasalle.naturalweb.dto.Disponibility;
+import com.lasalle.naturalweb.dto.DisponibilityInput;
 import com.lasalle.naturalweb.dto.ReservationOutput;
 import com.lasalle.naturalweb.dto.ScheduleInput;
 import com.lasalle.naturalweb.entity.Schedule;
@@ -28,7 +29,10 @@ public interface TherapistService {
 
     List<Schedule> getSchedule(String therapistDni);
 
-    List<Disponibility> getDisponibility(String therapistDni);
+    List<Disponibility> getDisponibility(DisponibilityInput disponibilityInput);
 
     List<Therapist> getTherapists();
+
+    List<Integer> getDaysOff(String therapistDni);
+
 }

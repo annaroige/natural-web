@@ -11,4 +11,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
     List<Schedule> getAllByTherapistDni(String therapistDni);
 
+    List<Schedule> getAllByTherapistDniAndDayOfWeek(String therapistDni, int dayOfWeek);
+
 }
