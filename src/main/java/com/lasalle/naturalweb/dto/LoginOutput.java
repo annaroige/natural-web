@@ -11,5 +11,6 @@ public class LoginOutput {
 
     private Boolean allow;
     private String role;
+    private String dni;
 
 }

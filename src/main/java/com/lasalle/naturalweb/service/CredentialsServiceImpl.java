@@ -24,6 +24,7 @@ public class CredentialsServiceImpl implements CredentialsService {
         } else {
             loginOutput.setAllow(Boolean.TRUE);
             loginOutput.setRole(credentials.getRole());
+            loginOutput.setDni(credentials.getDNI());
         }
 
         return loginOutput;

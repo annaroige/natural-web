@@ -133,7 +133,7 @@ public class TherapistServiceImpl implements TherapistService {
 
         for (Integer session : sessions) {
             Disponibility disponibility = new Disponibility();
-            disponibility.setTime(LocalTime.of(session, 0));
+
             if (!reservationList.stream().anyMatch(rl -> rl.getDate().getHour() == session)) {
                 disponibility.setTime(LocalTime.of(session, 0));
                 disponibility.setDisponible(true);
@@ -145,10 +145,13 @@ public class TherapistServiceImpl implements TherapistService {
     }
 
     private List<Reservation> getReservationList(DisponibilityInput disponibilityInput) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalTime midnight = LocalTime.MIDNIGHT;
-        LocalDateTime todayMidnight = LocalDateTime.of(LocalDate.from(now), midnight);
-        List<Reservation> reservationList = reservationRepository.getAllByTherapist_DniAndDateBetweenOrderByDate(disponibilityInput.getTherapistDNI(), now, todayMidnight);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+        LocalDate now = LocalDate.parse(disponibilityInput.getDate(), formatter);
+        LocalTime midnight = LocalTime.of(00, 01);;
+        LocalTime otherTime = LocalTime.of(23, 59);
+        LocalDateTime from = LocalDateTime.of(now, midnight);
+        LocalDateTime todayMidnight = LocalDateTime.of(LocalDate.from(now), otherTime);
+        List<Reservation> reservationList = reservationRepository.getAllByTherapist_DniAndDateBetweenOrderByDate(disponibilityInput.getTherapistDNI(), from, todayMidnight);
         return reservationList;
     }
 
